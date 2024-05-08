@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <input type="file" id="fileInput" accept=".xlsx">
+<input type="text" id="sheetNameInput" placeholder="Sheet Name">
+<input type="number" id="startRowInput" placeholder="Start Row">
+<input type="number" id="endRowInput" placeholder="End Row">
+<input type="text" id="startColumnInput" placeholder="Start Column">
+<input type="text" id="endColumnInput" placeholder="End Column">
+<button onclick="convertAndSave()">save</button>
+
+
+
+    <script src="js/script.js"></script>
+</body>
+</html>
