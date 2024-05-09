@@ -13,7 +13,8 @@ function convertAndSave() {
         'A': 'Model Id:',
         'B': 'Item Name:',
         'C': 'Description:',
-        'D': 'Technical Specification:'
+        'D': 'Technical Specification:',
+        'E': 'Status: Done'
     };
 
     if (!file) {
@@ -44,6 +45,10 @@ function convertAndSave() {
         }
 
         const sheet = workbook.Sheets[sheetName];
+        const zip = new JSZip();
+
+        let zipFilename = `row-${startRow}-${endRow}.zip`; 
+        let promises = [];
 
         for (let row = startRow; row <= endRow; row++) {
             let rowText = '';
@@ -51,16 +56,18 @@ function convertAndSave() {
             for (let col in columnTexts) {
                 const cellAddress = col + row;
                 const cellValue = sheet[cellAddress] ? sheet[cellAddress].v : '';
-                rowText += columnTexts[col] + '\n' + cellValue + '\n\n'; // Add an extra space line after each column
+                rowText += columnTexts[col] + '\n' + cellValue + '\n\n';
                 if (col === 'B') {
-                    itemName = cellValue; // Get the Item Name from column B
+                    itemName = cellValue.replace(/\//g, '-').replace(/"/g, '');
                 }
             }
-            // Append each row to the text file
-            const blob = new Blob([rowText], { type: 'text/plain;charset=utf-8' });
-            const fileName = `${itemName}.txt`; // Use the Item Name as the filename
-            saveAs(blob, fileName);
+            zip.file(`${itemName}.txt`, rowText, { createFolders: false });
         }
+        
+        zip.generateAsync({ type: 'blob' })
+            .then(function(content) {
+                saveAs(content, zipFilename);
+            });
     };
 
     reader.readAsArrayBuffer(file);
