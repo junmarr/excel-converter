@@ -14,7 +14,6 @@ function convertAndSave() {
         'B': 'Item Name:',
         'C': 'Description:',
         'D': 'Technical Specification:',
-        'E': 'Status: Done'
     };
 
     if (!file) {
