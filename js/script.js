@@ -54,14 +54,19 @@ function convertAndSave() {
             let itemName = ''; // Variable to store the Item Name
             for (let col in columnTexts) {
                 const cellAddress = col + row;
-                const cellValue = sheet[cellAddress] ? sheet[cellAddress].v : '';
-                rowText += columnTexts[col] + '\n' + cellValue + '\n\n';
-                if (col === 'B') {
+                const cellValue = sheet[cellAddress] ? sheet[cellAddress].v.trim() : '';
+                if (col === 'A') {
+                    rowText += columnTexts[col] + ' ' + cellValue + '\n\n'; // Concatenate Model Id and its value
+                } else if (col === 'B') {
+                    rowText += columnTexts[col] + ' ' + cellValue + '\n\n'; // Concatenate Item Name and its value
                     itemName = cellValue.replace(/\//g, '-').replace(/"/g, '');
+                } else {
+                    rowText += columnTexts[col] + '\n' + cellValue + '\n\n'; // Concatenate other columns
                 }
             }
             zip.file(`${itemName}.txt`, rowText, { createFolders: false });
         }
+        
         
         zip.generateAsync({ type: 'blob' })
             .then(function(content) {
