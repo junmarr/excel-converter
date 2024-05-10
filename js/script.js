@@ -51,17 +51,14 @@ function convertAndSave() {
 
         for (let row = startRow; row <= endRow; row++) {
             let rowText = '';
-            let itemName = ''; // Variable to store the Item Name
+            let itemName = '';
             for (let col in columnTexts) {
                 const cellAddress = col + row;
-                const cellValue = sheet[cellAddress] ? sheet[cellAddress].v.trim() : '';
-                if (col === 'A') {
-                    rowText += columnTexts[col] + ' ' + cellValue + '\n\n'; // Concatenate Model Id and its value
-                } else if (col === 'B') {
-                    rowText += columnTexts[col] + ' ' + cellValue + '\n\n'; // Concatenate Item Name and its value
-                    itemName = cellValue.replace(/\//g, '-').replace(/"/g, '');
-                } else {
-                    rowText += columnTexts[col] + '\n' + cellValue + '\n\n'; // Concatenate other columns
+                let cellValue = sheet[cellAddress] ? sheet[cellAddress].v.trim() : 'N/A';
+                if (cellValue === '') cellValue = 'N/A';
+                rowText += columnTexts[col] + '\n' + cellValue + '\n\n';
+                if (col === 'B') {
+                    itemName = cellValue.replace(/\//g, '-').replace(/"/g, '').replace(/[^a-zA-Z0-9\s-]/g, '');
                 }
             }
             zip.file(`${itemName}.txt`, rowText, { createFolders: false });
