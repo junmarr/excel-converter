@@ -64,7 +64,7 @@ function convertAndSave() {
       for (let col in columnTexts) {
         const cellAddress = col + row;
         let cellValue = sheet[cellAddress]
-          ? sheet[cellAddress].v.trim()
+          ? sheet[cellAddress].v.split('\n').map(line => line.trim()).join('\n')
           : 'N/A';
         if (cellValue === '') cellValue = 'N/A';
         rowText += columnTexts[col] + '\n' + cellValue + '\n\n';
